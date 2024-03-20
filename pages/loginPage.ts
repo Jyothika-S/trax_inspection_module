@@ -1,4 +1,5 @@
 import { ElementHandle, Locator, Page, expect } from '@playwright/test';
+import inspectionTestData from "../test-data/inspectionTestData.json"
 
 export class LoginPage {
     page: Page;
@@ -23,10 +24,10 @@ export class LoginPage {
     }
 
     async verifyRedirection(){
-        await this.page.waitForURL('https://app.qa.traxinsights.app/#/dashboard');
+        await this.page.waitForURL(inspectionTestData.home);
 
         const currentURL = this.page.url();
-        expect(currentURL).toBe('https://app.qa.traxinsights.app/#/dashboard');
+        expect(currentURL).toBe(inspectionTestData.home);
     }
     
 }

@@ -1,0 +1,5 @@
+{
+    "home" : "https://app.qa.traxinsights.app/#/dashboard",
+    "inspection_location" : "https://app.qa.traxinsights.app/#/location-overview",
+    "inspection" : "https://app.qa.traxinsights.app/#/inspection"
+}

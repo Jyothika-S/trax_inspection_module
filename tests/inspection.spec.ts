@@ -2,6 +2,7 @@ import { PlaywrightTestConfig, test } from '@playwright/test';
 import { LoginPage } from '../pages/loginPage';
 import loginData from '../test-data/loginData.json'
 import { InspLocationPage } from '../pages/inspectionLocation';
+import { HomePage } from '../pages/homePage';
 
 let inspId : string;
 let location: string;
@@ -15,10 +16,13 @@ test.beforeEach('Login Test', async ({ page }) => {
 });
 
 test('Navigation to Inspection Locations', async ({ page}) => {
+    const expectedList = [];
+    const actualList = [];
     
+    const gotoInspLocation = new HomePage(page);
     const inspLocation = new InspLocationPage(page);
 
-    await inspLocation.gotoInspLocationPage();
+    await gotoInspLocation.gotoInspLocationPage();
     await inspLocation.verifyInspLocPage();
     await inspLocation.inspPage();
 })

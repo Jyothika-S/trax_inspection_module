@@ -1,13 +1,11 @@
 import { Locator, Page, expect } from "@playwright/test";
+import inspectionTestData from "../test-data/inspectionTestData.json"
 
 // let inspId : string;
 // let location: string;
 
 export class InspLocationPage {
     page: Page;
-    sidePanel: Locator;
-    inspectionTab: Locator;
-    inspLocation: Locator;
     locName: Locator;
     inspNowBtn: Locator;
     inspectionIdElement: Locator;
@@ -32,9 +30,6 @@ export class InspLocationPage {
 
     constructor(page: Page) {
         this.page = page;
-        this.sidePanel = page.getByRole('button', { name: ' Toggle navigation' })
-        this.inspectionTab = page.locator('a').filter({ hasText: /^Inspections$/ })
-        this.inspLocation = page.getByRole('link', { name: '● Inspection Locations' })
         this.locName = page.locator('#maincontent > div > div > locationoverview > section.content > div:nth-child(2) > div > div > div > table > tbody > tr > td')
         this.inspNowBtn = page.locator('div').filter({ hasText: /^Inspect Now$/ }).locator('i')
         this.inspectionIdElement = page.locator('#maincontent > div > div > inspection > div > section.content-header.element-header > div > div.col-lg-7.col-sm-12.col-md-6 > span:nth-child(1)')
@@ -55,17 +50,11 @@ export class InspLocationPage {
         this.completeInspNoBtn = page.getByRole('button', { name: 'No' })
     }
 
-    async gotoInspLocationPage(){
-        await this.sidePanel.click();
-        await this.inspectionTab.click();
-        await this.inspLocation.click();
-    }
-
     async verifyInspLocPage(){
-        await this.page.waitForURL('https://app.qa.traxinsights.app/#/location-overview');
+        await this.page.waitForURL(inspectionTestData.inspection_location);
 
         const currentURL = this.page.url();
-        expect(currentURL).toBe('https://app.qa.traxinsights.app/#/location-overview');
+        expect(currentURL).toBe(inspectionTestData.inspection_location);
 
         const inspectionLocationsText = this.page.locator('text=INSPECTION LOCATIONS').first();
         expect(inspectionLocationsText).not.toBeNull();
@@ -75,11 +64,11 @@ export class InspLocationPage {
         // await page.getByRole('cell', { name: 'Automation Test Location' }).click();
         await this.locName.click();
         await this.inspNowBtn.click();
-        await this.page.waitForURL('https://app.qa.traxinsights.app/#/inspection');
+        await this.page.waitForURL(inspectionTestData.inspection);
     }
 
     async inspPage() {
-        await this.page.waitForURL('https://app.qa.traxinsights.app/#/inspection');
+        await this.page.waitForURL(inspectionTestData.inspection);
         // await expect(this.page.locator('inspection')).toContainText('Inspection #: 142924');
         // await expect(this.page.locator('inspection')).toContainText('Location: Automation Test Location');
 
@@ -134,9 +123,9 @@ export class InspLocationPage {
         await expect(this.completeInspYesBtn).toBeVisible();
         await expect(this.completeInspNoBtn).toBeVisible();
         await this.completeInspNoBtn.click();
-        await this.page.waitForURL('https://app.qa.traxinsights.app/#/location-overview');
+        await this.page.waitForURL(inspectionTestData.inspection_location);
         const currentURL = this.page.url();
-        await expect(currentURL).toBe('https://app.qa.traxinsights.app/#/location-overview');
+        await expect(currentURL).toBe(inspectionTestData.inspection_location);
      
     }
 
