@@ -6,10 +6,6 @@ import { InspLocationPage } from '../pages/inspectionLocation';
 let inspId : string;
 let location: string;
 
-export const config: PlaywrightTestConfig = {
-    timeout: 60000, 
-  };
-
 test.beforeEach('Login Test', async ({ page }) => {
     const login = new LoginPage(page);
 
