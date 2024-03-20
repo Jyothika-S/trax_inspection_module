@@ -25,6 +25,10 @@ export class InspLocationPage {
     imgUpload: Locator;
     attachmentComments: Locator;
     attachmentSaveBtn: Locator;
+    completeInspBtn: Locator;
+    completeInspYesBtn: Locator;
+    completeInspNoBtn: Locator;
+
 
     constructor(page: Page) {
         this.page = page;
@@ -46,6 +50,9 @@ export class InspLocationPage {
         this.imgUpload = page.locator('input[name="file_1"]')
         this.attachmentComments = page.getByPlaceholder('Comments', { exact: true })
         this.attachmentSaveBtn = page.getByRole('button', { name: 'Save' })
+        this.completeInspBtn = page.getByRole('button', { name: 'Complete Inspection' })
+        this.completeInspYesBtn = page.getByRole('button', { name: 'Yes' })
+        this.completeInspNoBtn = page.getByRole('button', { name: 'No' })
     }
 
     async gotoInspLocationPage(){
@@ -111,6 +118,7 @@ export class InspLocationPage {
         await this.ratingConsumables.click();
         await this.commentBox.click();
         await this.commentBox.fill('testcomment');
+
         //add attachment
         await this.attachmentPopupBtn.click();
         await this.attachmentBtn.click();
@@ -119,6 +127,17 @@ export class InspLocationPage {
         await this.attachmentSaveBtn.click();
         await expect(this.page.getByRole('table')).toContainText('1');
 
+        //complete inspection part
+        await this.completeInspBtn.click();
+        await expect(this.page.getByRole('heading')).toContainText('Follow-up needed?');
+        await expect(this.page.getByRole('paragraph')).toContainText('Would you like to create a follow-up alert?');
+        await expect(this.completeInspYesBtn).toBeVisible();
+        await expect(this.completeInspNoBtn).toBeVisible();
+        await this.completeInspNoBtn.click();
+        await this.page.waitForURL('https://app.qa.traxinsights.app/#/location-overview');
+        const currentURL = this.page.url();
+        await expect(currentURL).toBe('https://app.qa.traxinsights.app/#/location-overview');
+     
     }
 
 }
