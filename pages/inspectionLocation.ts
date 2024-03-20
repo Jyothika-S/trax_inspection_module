@@ -20,7 +20,11 @@ export class InspLocationPage {
     ratingClothes: Locator;
     ratingToilet: Locator;
     ratingConsumables: Locator;
-    
+    attachmentPopupBtn: Locator;
+    attachmentBtn: Locator;
+    imgUpload: Locator;
+    attachmentComments: Locator;
+    attachmentSaveBtn: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -37,6 +41,11 @@ export class InspLocationPage {
         this.ratingToilet = page.locator('#mat-button-toggle-18-button')
         this.ratingConsumables = page.getByRole('button', { name: 'Complete', exact: true })
         this.commentBox = page.getByPlaceholder('Place inspection comments here')
+        this.attachmentPopupBtn = page.getByRole('button', { name: '' }).first()
+        this.attachmentBtn = page.getByRole('button', { name: '+ Add Attachments' })
+        this.imgUpload = page.locator('input[name="file_1"]')
+        this.attachmentComments = page.getByPlaceholder('Comments', { exact: true })
+        this.attachmentSaveBtn = page.getByRole('button', { name: 'Save' })
     }
 
     async gotoInspLocationPage(){
@@ -96,22 +105,21 @@ export class InspLocationPage {
         await expect(this.page.getByRole('table')).toContainText('Consumables');
         //actions
         await this.ratingAirPurifier.click();
-        // await this.page.waitForSelector('#scoreFactor_3');
-await this.ratingMirror.click();
+        await this.ratingMirror.click();
         await this.ratingClothes.click();
         await this.ratingToilet.click();
         await this.ratingConsumables.click();
-
         await this.commentBox.click();
         await this.commentBox.fill('testcomment');
+        //add attachment
+        await this.attachmentPopupBtn.click();
+        await this.attachmentBtn.click();
+        await this.imgUpload.setInputFiles('uploadItems/sampleFile.jpeg');
+        await this.attachmentComments.fill('test comment');
+        await this.attachmentSaveBtn.click();
+        await expect(this.page.getByRole('table')).toContainText('1');
 
-
-
-        
     }
-
-
-    
 
 }
 
