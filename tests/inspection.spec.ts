@@ -15,7 +15,7 @@ test.beforeEach('Login Test', async ({ page }) => {
 });
 
 test('Navigation to Inspection Locations', async ({ page}) => {
-    test.setTimeout(60000);
+    
     const inspLocation = new InspLocationPage(page);
 
     await inspLocation.gotoInspLocationPage();
