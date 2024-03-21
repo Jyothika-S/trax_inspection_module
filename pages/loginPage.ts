@@ -15,7 +15,8 @@ export class LoginPage {
     }
 
     async gotoLoginPage(){
-        await this.page.goto('https://app.qa.traxinsights.app/#/login')
+        // await this.page.goto('https://app.qa.traxinsights.app/#/login')
+        await this.page.goto(process.env.URL || '')
     }
     async login(username: string, password: string){
         await this.username.fill(username);
