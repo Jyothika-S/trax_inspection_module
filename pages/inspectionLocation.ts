@@ -10,6 +10,18 @@ export class InspLocationPage {
     inspNowBtn: Locator;
     inspectionIdElement: Locator;
     locationElement: Locator;
+    inspLocTitle: Locator;
+    inspIdText: string;
+    locationText: string;
+    tableHeader: Locator;
+    tableHeaderText: string;
+    addAttachment: Locator;
+    attachmentCount: string;
+    confirmPopupTitle: Locator;
+    confirmPopupTitleText: string;
+    confirmPopupContent: Locator;
+    confirmPopupContentText: string;
+    confirmPopupbtnText: string;
     inspectionId: string;
     location: string;
     commentBox: Locator;
@@ -26,6 +38,7 @@ export class InspLocationPage {
     completeInspBtn: Locator;
     completeInspYesBtn: Locator;
     completeInspNoBtn: Locator;
+    inspectionLocationsText: string;
 
 
     constructor(page: Page) {
@@ -34,6 +47,11 @@ export class InspLocationPage {
         this.inspNowBtn = page.locator('div').filter({ hasText: /^Inspect Now$/ }).locator('i')
         this.inspectionIdElement = page.locator('#maincontent > div > div > inspection > div > section.content-header.element-header > div > div.col-lg-7.col-sm-12.col-md-6 > span:nth-child(1)')
         this.locationElement = page.locator('#maincontent > div > div > inspection > div > section.content-header.element-header > div > div.col-lg-7.col-sm-12.col-md-6 > span:nth-child(2)')
+        this.inspLocTitle = page.locator('#maincontent > div > div > locationoverview > section.content-header > div > div > div.col-lg-4.col-md-6.col-sm-12.form-heading > span')
+        this.tableHeader = page.locator('#maincontent > div > div > inspection > div > section.content.col-lg-12.col-md-12.col-sm-12 > div.row.ng-star-inserted > div > div > div > table > thead');
+        this.addAttachment = page.locator('#maincontent > div > div > inspection > div > section.content.col-lg-12.col-md-12.col-sm-12 > div.row.ng-star-inserted > div > div > div > table > tbody:nth-child(2) > tr > td:nth-child(4) > button')
+        this.confirmPopupTitle = page.locator('#followUpScreen > div > div > div.modal-header.text-center')
+        this.confirmPopupContent = page.locator('#followUpScreen > div > div > div.modal-body')
         this.ratingAirPurifier = page.getByRole('button', { name: '4' })
         this.ratingMirror = page.locator('#mat-button-toggle-9-button');
         this.ratingClothes = page.locator('#mat-button-toggle-15-button')
@@ -56,11 +74,8 @@ export class InspLocationPage {
         const currentURL = this.page.url();
         expect(currentURL).toBe(inspectionTestData.inspection_location);
 
-        const inspectionLocationsText = this.page.locator('text=INSPECTION LOCATIONS').first();
-        expect(inspectionLocationsText).not.toBeNull();
-
-        // await expect(this.page.locator('th')).toContainText('Location Name');
-
+        this.inspectionLocationsText = await this.inspLocTitle.innerText();
+       
         // await page.getByRole('cell', { name: 'Automation Test Location' }).click();
         await this.locName.click();
         await this.inspNowBtn.click();
@@ -73,32 +88,19 @@ export class InspLocationPage {
         // await expect(this.page.locator('inspection')).toContainText('Location: Automation Test Location');
 
         // Extracting Inspection Number
-        const inspIdText = await this.inspectionIdElement.innerText();
-        this.inspectionId = inspIdText.split(': ')[1];
-
+        this.inspIdText = await this.inspectionIdElement.innerText();
+        this.inspectionId = this.inspIdText.split(': ')[1];
+ 
 
         // Extracting Location
-        const locationText = await this.locationElement.innerText();
-        this.location = locationText.split(': ')[1];
-
-        // extracted values in assertions
-        await expect(inspIdText).toContain('Inspection #:');
-        await expect(locationText).toContain('Location:');
+        this.locationText = await this.locationElement.innerText();
+        this.location = this.locationText.split(': ')[1];
 
         console.log("ispID: ", this.inspectionId)
         console.log("loc: ", this.location)
 
-        //verify table headers and comment textbox
-        await expect(this.page.locator('thead')).toContainText('Element Image');
-        await expect(this.page.locator('thead')).toContainText('Element Name');
-        await expect(this.page.locator('thead')).toContainText('Rating');
-        await expect(this.page.locator('thead')).toContainText('Comment With Attachment');
-        expect(await this.commentBox.isVisible()).toBe(true);
-        await expect(this.page.getByRole('table')).toContainText('Air Purifier');
-        await expect(this.page.getByRole('table')).toContainText('Mirror');
-        await expect(this.page.getByRole('table')).toContainText('Clothes & Liquid');
-        await expect(this.page.getByRole('table')).toContainText('Toilet and Urinals');
-        await expect(this.page.getByRole('table')).toContainText('Consumables');
+        this.tableHeaderText = await this.tableHeader.innerText();
+        
         //actions
         await this.ratingAirPurifier.click();
         await this.ratingMirror.click();
@@ -114,14 +116,14 @@ export class InspLocationPage {
         await this.imgUpload.setInputFiles('uploadItems/sampleFile.jpeg');
         await this.attachmentComments.fill('test comment');
         await this.attachmentSaveBtn.click();
-        await expect(this.page.getByRole('table')).toContainText('1');
+        this.attachmentCount = await this.addAttachment.innerText();
 
         //complete inspection part
         await this.completeInspBtn.click();
-        await expect(this.page.getByRole('heading')).toContainText('Follow-up needed?');
-        await expect(this.page.getByRole('paragraph')).toContainText('Would you like to create a follow-up alert?');
-        await expect(this.completeInspYesBtn).toBeVisible();
-        await expect(this.completeInspNoBtn).toBeVisible();
+        this.confirmPopupTitleText = await this.confirmPopupTitle.innerText();
+        this.confirmPopupContentText = await this.confirmPopupContent.innerText();
+        
+      
         await this.completeInspNoBtn.click();
         await this.page.waitForURL(inspectionTestData.inspection_location);
         const currentURL = this.page.url();

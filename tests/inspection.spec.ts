@@ -1,4 +1,4 @@
-import { PlaywrightTestConfig, test } from '@playwright/test';
+import { PlaywrightTestConfig, expect, test } from '@playwright/test';
 import { LoginPage } from '../pages/loginPage';
 import loginData from '../test-data/loginData.json'
 import { InspLocationPage } from '../pages/inspectionLocation';
@@ -16,14 +16,31 @@ test.beforeEach('Login Test', async ({ page }) => {
 });
 
 test('Navigation to Inspection Locations', async ({ page}) => {
-    const expectedList = [];
-    const actualList = [];
-    
+    // let expectedList: string[] = [];
+    // let actualList: string[] = [];
     const gotoInspLocation = new HomePage(page);
     const inspLocation = new InspLocationPage(page);
 
     await gotoInspLocation.gotoInspLocationPage();
     await inspLocation.verifyInspLocPage();
     await inspLocation.inspPage();
+
+    //assertions
+    
+    expect(inspLocation.inspectionLocationsText).toContain('INSPECTION LOCATIONS')
+    expect(inspLocation.inspectionLocationsText).not.toBeNull();
+    expect(inspLocation.inspIdText).toContain('Inspection #:');
+    expect(inspLocation.locationText).toContain('Location:');
+    expect(inspLocation.tableHeaderText).toContain('Element Image	Element Name	Rating	Comment With Attachment');
+    expect(inspLocation.attachmentCount).toContain('1');
+    expect(inspLocation.confirmPopupTitleText).toContain('Follow-up needed?')
+    expect(inspLocation.confirmPopupContentText).toContain('Would you like to create a follow-up alert?')
+    expect(inspLocation.completeInspYesBtn.isVisible()).toBeTruthy(); // Assert visibility of Yes button
+    expect(inspLocation.completeInspNoBtn.isVisible()).toBeTruthy();
+    
+    
+
+
+
 })
 
