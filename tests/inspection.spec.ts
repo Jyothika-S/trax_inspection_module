@@ -35,7 +35,7 @@ test('Navigation to Inspection Locations', async ({ page}) => {
     expect(inspLocation.attachmentCount).toContain('1');
     expect(inspLocation.confirmPopupTitleText).toContain('Follow-up needed?')
     expect(inspLocation.confirmPopupContentText).toContain('Would you like to create a follow-up alert?')
-    expect(inspLocation.completeInspYesBtn.isVisible()).toBeTruthy(); // Assert visibility of Yes button
+    expect(inspLocation.completeInspYesBtn.isVisible()).toBeTruthy();
     expect(inspLocation.completeInspNoBtn.isVisible()).toBeTruthy();
     
     
