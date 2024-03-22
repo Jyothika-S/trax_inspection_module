@@ -1,4 +1,4 @@
-import { Locator, Page, expect } from "@playwright/test";
+import { Locator, Page } from "@playwright/test";
 
 export class HomePage {
     page: Page;
@@ -8,15 +8,18 @@ export class HomePage {
 
     constructor(page: Page) {
         this.page = page;
-        this.sidePanel = page.getByRole('button', { name: ' Toggle navigation' })
-        this.inspectionTab = page.locator('a').filter({ hasText: /^Inspections$/ })
-        this.inspLocation = page.getByRole('link', { name: '● Inspection Locations' })
     }
 
-    async gotoInspLocationPage(){
-        await this.sidePanel.click();
-        await this.inspectionTab.click();
-        await this.inspLocation.click();
-    }
+    async gotoMenuPage(menuName: string, submenuName: string) {
+        const sidePanelToggle = await this.page.getByRole('button', { name: ' Toggle navigation' });
+        await sidePanelToggle.click();
 
+        // to find the menu item dynamically
+        const menuLocator = this.page.locator('a').filter({ hasText: new RegExp('^' + menuName + '$', 'i') });
+        await menuLocator.click();
+
+        const submenuSelector = `//a[span[normalize-space(text()) = "${submenuName}"]]`;
+        const submenuLocator = await this.page.waitForSelector(submenuSelector);
+        await submenuLocator.click();
+    }
 }

@@ -1,4 +1,4 @@
-import { Locator, Page, expect } from "@playwright/test";
+import { Locator, Page} from "@playwright/test";
 import inspectionTestData from "../test-data/inspectionTestData.json"
 
 // let inspId : string;
@@ -39,6 +39,7 @@ export class InspLocationPage {
     completeInspYesBtn: Locator;
     completeInspNoBtn: Locator;
     inspectionLocationsText: string;
+    currentURL: string;
 
 
     constructor(page: Page) {
@@ -70,10 +71,7 @@ export class InspLocationPage {
 
     async verifyInspLocPage(){
         await this.page.waitForURL(inspectionTestData.inspection_location);
-
-        const currentURL = this.page.url();
-        expect(currentURL).toBe(inspectionTestData.inspection_location);
-
+        this.currentURL = this.page.url();
         this.inspectionLocationsText = await this.inspLocTitle.innerText();
        
         // await page.getByRole('cell', { name: 'Automation Test Location' }).click();
@@ -84,9 +82,7 @@ export class InspLocationPage {
 
     async inspPage() {
         await this.page.waitForURL(inspectionTestData.inspection);
-        // await expect(this.page.locator('inspection')).toContainText('Inspection #: 142924');
-        // await expect(this.page.locator('inspection')).toContainText('Location: Automation Test Location');
-
+        
         // Extracting Inspection Number
         this.inspIdText = await this.inspectionIdElement.innerText();
         this.inspectionId = this.inspIdText.split(': ')[1];
@@ -126,9 +122,7 @@ export class InspLocationPage {
       
         await this.completeInspNoBtn.click();
         await this.page.waitForURL(inspectionTestData.inspection_location);
-        const currentURL = this.page.url();
-        await expect(currentURL).toBe(inspectionTestData.inspection_location);
-     
+        
     }
 
 }

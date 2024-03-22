@@ -3,6 +3,7 @@ import { LoginPage } from '../pages/loginPage';
 import loginData from '../test-data/loginData.json'
 import { InspLocationPage } from '../pages/inspectionLocation';
 import { HomePage } from '../pages/homePage';
+import inspectionTestData from '../test-data/inspectionTestData.json'
 
 let inspId : string;
 let location: string;
@@ -16,17 +17,15 @@ test.beforeEach('Login Test', async ({ page }) => {
 });
 
 test('Navigation to Inspection Locations', async ({ page}) => {
-    // let expectedList: string[] = [];
-    // let actualList: string[] = [];
-    const gotoInspLocation = new HomePage(page);
+    const homePage = new HomePage(page);
     const inspLocation = new InspLocationPage(page);
 
-    await gotoInspLocation.gotoInspLocationPage();
+    await homePage.gotoMenuPage('Inspections', 'Inspection Logs');
     await inspLocation.verifyInspLocPage();
     await inspLocation.inspPage();
 
     //assertions
-    
+    expect(inspLocation.currentURL).toBe(inspectionTestData.inspection_location)
     expect(inspLocation.inspectionLocationsText).toContain('INSPECTION LOCATIONS')
     expect(inspLocation.inspectionLocationsText).not.toBeNull();
     expect(inspLocation.inspIdText).toContain('Inspection #:');
@@ -37,6 +36,7 @@ test('Navigation to Inspection Locations', async ({ page}) => {
     expect(inspLocation.confirmPopupContentText).toContain('Would you like to create a follow-up alert?')
     expect(inspLocation.completeInspYesBtn.isVisible()).toBeTruthy();
     expect(inspLocation.completeInspNoBtn.isVisible()).toBeTruthy();
+    expect(inspLocation.currentURL).toBe(inspectionTestData.inspection_location)
     
     
 
