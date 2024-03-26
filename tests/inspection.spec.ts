@@ -3,6 +3,7 @@ import { LoginPage } from '../pages/loginPage';
 import loginData from '../test-data/loginData.json'
 import { InspLocationPage } from '../pages/inspectionLocation';
 import { HomePage } from '../pages/homePage';
+import { InspLogPage } from '../pages/inspectionLog'
 import inspectionTestData from '../test-data/inspectionTestData.json'
 
 let inspId : string;
@@ -16,11 +17,11 @@ test.beforeEach('Login Test', async ({ page }) => {
     await login.verifyRedirection()
 });
 
-test('Navigation to Inspection Locations', async ({ page}) => {
+test.beforeEach('Navigation to Inspection Locations', async ({ page}) => {
     const homePage = new HomePage(page);
     const inspLocation = new InspLocationPage(page);
-
-    await homePage.gotoMenuPage('Inspections', 'Inspection Logs');
+    await homePage.toggleSidePanel();
+    await homePage.gotoMenuPage('Inspections', 'Inspection Locations');
     await inspLocation.verifyInspLocPage();
     await inspLocation.inspPage();
 
@@ -37,9 +38,26 @@ test('Navigation to Inspection Locations', async ({ page}) => {
     expect(inspLocation.completeInspYesBtn.isVisible()).toBeTruthy();
     expect(inspLocation.completeInspNoBtn.isVisible()).toBeTruthy();
     expect(inspLocation.currentURL).toBe(inspectionTestData.inspection_location)
-    
-    
 
+    inspId = inspLocation.inspectionId;
+    location = inspLocation.location;
+})
+
+test('Verification of Inspection completion status in Inspection Logs', async ({page}) => {
+    const inspLogPage = new InspLogPage(page);
+    const homePage = new HomePage(page);
+    const inspLocation = new InspLocationPage(page);
+    // await homePage.toggleSidePanel();
+    // await homePage.gotoMenuPage('', '');
+    await homePage.gotoMenuPage('Inspections', 'Inspection Logs');
+
+    console.log("id from global: ", inspId)
+    await inspLogPage.gotoInspLogPage();
+    await inspLogPage.getLogRowContent();
+
+    // Verify if log contains ID and its status - "Complete"
+    expect(inspLogPage.logRowText).toContain(inspId);
+    expect(inspLogPage.logRowText).toContain('Complete');
 
 
 })
