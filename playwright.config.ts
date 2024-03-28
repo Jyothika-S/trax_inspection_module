@@ -17,7 +17,7 @@ console.log(process.env.URL)
  */
 export default defineConfig({
   testDir: './tests',
-  timeout: 60 * 1000,
+  timeout: 90 * 1000,
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */

@@ -2,5 +2,6 @@
     "home" : "https://app.qa.traxinsights.app/#/dashboard",
     "inspection_location" : "https://app.qa.traxinsights.app/#/location-overview",
     "inspection" : "https://app.qa.traxinsights.app/#/inspection",
-    "inspection_log" : "https://app.qa.traxinsights.app/#/inspection-log"
+    "inspection_log" : "https://app.qa.traxinsights.app/#/inspection-log",
+    "inspection_overview" : "https://app.qa.traxinsights.app/#/overview-dashboard"
 }

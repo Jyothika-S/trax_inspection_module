@@ -29,8 +29,7 @@ test('verify Inspection location page', async ({page}) => {
     expect(inspLocation.inspectionLocationsText).not.toBeNull();
     expect(inspLocation.venue).toContainText('● Venue');
 
-    venue = inspLocation.venueText;
-    console.log("venue from spec: ",venue);
+    
 
 })
 
@@ -44,6 +43,8 @@ test('Inspection', async ({page}) => {
         await homePage.toggleSidePanel();
         await homePage.gotoMenuPage('Inspections', 'Inspection Locations');
         await inspLocation.verifyInspLocPage();
+        venue = inspLocation.venueText;
+        console.log("venue from spec: ",venue);
         await inspLocation.inspPage();
         //assertions
         expect(inspLocation.inspIdText).toContain('Inspection #:');
@@ -89,7 +90,10 @@ test('Inspection', async ({page}) => {
     await test.step('verify Inspection Overview', async() => {
         await homePage.gotoMenuPage('Inspection Overview', ' ');
         await inspOverviewPage.gotoInspOverviewPage();
-     
+        console.log("venue printed from overview: ", venue)
+        await inspOverviewPage.selectVenue(venue)
+        await inspOverviewPage.verifyFilteredInspection(venue)
+        expect(inspOverviewPage.inspIdText).toContain(inspId)
     })
 })
 
