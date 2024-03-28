@@ -1,4 +1,4 @@
-import { Locator, Page} from "@playwright/test";
+import { Locator, Page, expect} from "@playwright/test";
 import inspectionTestData from "../test-data/inspectionTestData.json"
 
 // let inspId : string;
@@ -11,6 +11,9 @@ export class InspLocationPage {
     inspectionIdElement: Locator;
     locationElement: Locator;
     inspLocTitle: Locator;
+    venue: Locator;
+    venueOption: Locator;
+    venueText: string;
     inspIdText: string;
     locationText: string;
     tableHeader: Locator;
@@ -45,6 +48,9 @@ export class InspLocationPage {
     constructor(page: Page) {
         this.page = page;
         this.locName = page.locator('#maincontent > div > div > locationoverview > section.content > div:nth-child(2) > div > div > div > table > tbody > tr > td')
+        this.venue = page.locator('locationoverview')
+        // this.venueOption = page.locator('ng-select[role="listbox"] .ng-value-label')
+        this.venueOption = page.locator('ng-select[role="listbox"] .ng-value-label').nth(1);
         this.inspNowBtn = page.locator('div').filter({ hasText: /^Inspect Now$/ }).locator('i')
         this.inspectionIdElement = page.locator('#maincontent > div > div > inspection > div > section.content-header.element-header > div > div.col-lg-7.col-sm-12.col-md-6 > span:nth-child(1)')
         this.locationElement = page.locator('#maincontent > div > div > inspection > div > section.content-header.element-header > div > div.col-lg-7.col-sm-12.col-md-6 > span:nth-child(2)')
@@ -73,14 +79,14 @@ export class InspLocationPage {
         await this.page.waitForURL(inspectionTestData.inspection_location);
         this.currentURL = this.page.url();
         this.inspectionLocationsText = await this.inspLocTitle.innerText();
-       
-        // await page.getByRole('cell', { name: 'Automation Test Location' }).click();
-        await this.locName.click();
-        await this.inspNowBtn.click();
-        await this.page.waitForURL(inspectionTestData.inspection);
+        this.venueText = (await this.venueOption.innerHTML());
+        console.log('venueText: ',this.venueText)
     }
 
     async inspPage() {
+        await this.locName.click();
+        await this.inspNowBtn.click();
+        await this.page.waitForURL(inspectionTestData.inspection);
         await this.page.waitForURL(inspectionTestData.inspection);
         
         // Extracting Inspection Number
@@ -113,16 +119,12 @@ export class InspLocationPage {
         await this.attachmentComments.fill('test comment');
         await this.attachmentSaveBtn.click();
         this.attachmentCount = await this.addAttachment.innerText();
-
         //complete inspection part
         await this.completeInspBtn.click();
         this.confirmPopupTitleText = await this.confirmPopupTitle.innerText();
         this.confirmPopupContentText = await this.confirmPopupContent.innerText();
-        
-      
         await this.completeInspNoBtn.click();
         await this.page.waitForURL(inspectionTestData.inspection_location);
-        
     }
 
 }
