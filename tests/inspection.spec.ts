@@ -6,6 +6,7 @@ import { HomePage } from '../pages/homePage';
 import { InspLogPage } from '../pages/inspectionLog'
 import inspectionTestData from '../test-data/inspectionTestData.json'
 import { InspOverviewPage } from '../pages/inspectionOverview';
+import { InspStatisticsPage } from '../pages/inspectionStatistics';
 
 let inspId : string;
 let location: string;
@@ -38,6 +39,7 @@ test('Inspection', async ({page}) => {
     const inspLocation = new InspLocationPage(page);
     const inspLogPage = new InspLogPage(page);
     const inspOverviewPage = new InspOverviewPage(page);
+    const inspStatisticsPage = new InspStatisticsPage(page);
 //creates new inspection
     await test.step('create new inspection', async () => {
         await homePage.toggleSidePanel();
@@ -94,6 +96,14 @@ test('Inspection', async ({page}) => {
         await inspOverviewPage.selectVenue(venue)
         await inspOverviewPage.verifyFilteredInspection(venue)
         expect(inspOverviewPage.inspIdText).toContain(inspId)
+    })
+
+    //verify inspection tab in statistics
+    await test.step('statistics ', async() => {
+        await homePage.gotoMenuPage('Statistics', ' ');
+        await inspStatisticsPage.gotoInspStatisticsPage();
+        await inspStatisticsPage.statisticsTabSelection('Inspection')
+        // await inspStatisticsPage.selectCurrentDate();
     })
 })
 
