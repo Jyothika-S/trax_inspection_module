@@ -7,5 +7,20 @@
         "inspection_log" : "inspection-log",
         "inspection_overview" : "overview-dashboard",
         "inspection_statistics" : "statistics"
+    },
+    "expectedData": {
+        "inspection_location_title": "INSPECTION LOCATIONS",
+        "inspection_location_venueLabel": "● Venue",
+        "inspection_Id_label" : "Inspection #:",
+        "inspection_location_label" : "Location:",
+        "inspection_tableHeaderText": "Element Image\tElement Name\tRating\tComment With Attachment",
+        "inspection_confirmPopup_title" : "Follow-up needed?",
+        "inspection_confirmPopup_content" : "Would you like to create a follow-up alert?",
+        "inspection_logStatus_complete" : "Complete"
+    },
+    "fillValues" : {
+        "inspection_comment" : "testcomment",
+        "inspection_attachment_imgUpload" : "uploadItems/sampleFile.jpeg",
+        "inspection_attachment_comment" : "test comment"
     }
 }

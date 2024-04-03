@@ -26,6 +26,7 @@ test('Inspection Workflow: Login, Create, Verify Details', async ({page}) => {
         await login.gotoLoginPage()
         await login.login(loginData.username, loginData.password)
         await login.verifyRedirection()
+        expect(login.currentURL).toBe(baseURL + inspectionTestData.urls.home);
     })
 
     //Inspection location page verification
@@ -34,9 +35,9 @@ test('Inspection Workflow: Login, Create, Verify Details', async ({page}) => {
         await homePage.gotoMenuPage('Inspections', 'Inspection Locations');
         await inspLocation.verifyInspLocPage();
         expect(inspLocation.currentURL).toBe(baseURL + inspectionTestData.urls.inspection_location)
-        expect(inspLocation.inspectionLocationsText).toContain('INSPECTION LOCATIONS')
-        expect(inspLocation.inspectionLocationsText).not.toBeNull();
-        expect(inspLocation.venue).toContainText('● Venue');
+        expect.soft(inspLocation.inspectionLocationsText).toContain(inspectionTestData.expectedData.inspection_location_title)
+        expect.soft(inspLocation.inspectionLocationsText).not.toBeNull();
+        expect.soft(inspLocation.venue).toContainText(inspectionTestData.expectedData.inspection_location_venueLabel);
         venue = inspLocation.venueText;
         console.log("venue from spec: ",venue);
     
@@ -46,12 +47,12 @@ test('Inspection Workflow: Login, Create, Verify Details', async ({page}) => {
     await test.step('Create new inspection', async () => {
         await inspLocation.inspPage();
         //assertions
-        expect.soft(inspLocation.inspIdText).toContain('Inspection #:');
-        expect.soft(inspLocation.locationText).toContain('Location:');
-        expect.soft(inspLocation.tableHeaderText).toContain('Element Image	Element Name	Rating	Comment With Attachment');
+        expect.soft(inspLocation.inspIdText).toContain(inspectionTestData.expectedData.inspection_Id_label);
+        expect.soft(inspLocation.locationText).toContain(inspectionTestData.expectedData.inspection_location_label);
+        expect.soft(inspLocation.tableHeaderText).toContain(inspectionTestData.expectedData.inspection_tableHeaderText);
         expect.soft(inspLocation.attachmentCount).toContain('1');
-        expect.soft(inspLocation.confirmPopupTitleText).toContain('Follow-up needed?')
-        expect.soft(inspLocation.confirmPopupContentText).toContain('Would you like to create a follow-up alert?')
+        expect.soft(inspLocation.confirmPopupTitleText).toContain(inspectionTestData.expectedData.inspection_confirmPopup_title)
+        expect.soft(inspLocation.confirmPopupContentText).toContain(inspectionTestData.expectedData.inspection_confirmPopup_content)
         expect.soft(inspLocation.completeInspYesBtn.isVisible()).toBeTruthy();
         expect.soft(inspLocation.completeInspNoBtn.isVisible()).toBeTruthy();
         expect(inspLocation.currentURL).toBe(baseURL + inspectionTestData.urls.inspection_location)
@@ -75,14 +76,14 @@ test('Inspection Workflow: Login, Create, Verify Details', async ({page}) => {
 
         // Verify if log contains ID and its status - "Complete"
         expect.soft(inspLogPage.logRowText).toContain(inspId);
-        expect.soft(inspLogPage.logRowText).toContain('Complete');
+        expect.soft(inspLogPage.logRowText).toContain(inspectionTestData.expectedData.inspection_logStatus_complete);
     })
 
     //verify the edit of the created inspection
     await test.step('Verifying if the details are present on the inspection\'s edit page', async() => {
         await inspLogPage.verifyEditDetails();
-        expect(inspLogPage.inspIdText).toContain(inspId);
-        expect(inspLogPage.inspLocText).toContain(location);
+        expect.soft(inspLogPage.inspIdText).toContain(inspId);
+        expect.soft(inspLogPage.inspLocText).toContain(location);
     })
 
     //check if currently completed inspection is found in Inspection Overview
