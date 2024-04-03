@@ -110,13 +110,13 @@ export class InspLocationPage {
         await this.ratingToilet.click();
         await this.ratingConsumables.click();
         await this.commentBox.click();
-        await this.commentBox.fill('testcomment');
+        await this.commentBox.fill(inspectionTestData.fillValues.inspection_comment);
 
         //add attachment
         await this.attachmentPopupBtn.click();
         await this.attachmentBtn.click();
-        await this.imgUpload.setInputFiles('uploadItems/sampleFile.jpeg');
-        await this.attachmentComments.fill('test comment');
+        await this.imgUpload.setInputFiles(inspectionTestData.fillValues.inspection_attachment_imgUpload);
+        await this.attachmentComments.fill(inspectionTestData.fillValues.inspection_attachment_comment);
         await this.attachmentSaveBtn.click();
         this.attachmentCount = await this.addAttachment.innerText();
         //complete inspection part

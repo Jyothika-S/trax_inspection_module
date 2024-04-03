@@ -3,10 +3,15 @@ import { Locator, Page } from "@playwright/test";
 export class HomePage {
     page: Page;
     sidePanelToggle: Locator;
+    menuSelector: Locator;
+    // submenuSelector: string;
+    // submenuLocator: string;
 
     constructor(page: Page) {
         this.page = page;
         this.sidePanelToggle = page.getByRole('button', { name: ' Toggle navigation' });
+        this.menuSelector = page.locator('a')
+        // this.submenuSelector = '//a[span[normalize-space(text()) = "${submenuName}"]]'
     }
     async toggleSidePanel() {
         await this.sidePanelToggle.click();
@@ -16,7 +21,7 @@ export class HomePage {
         // await this.toggleSidePanel();
 
         // to find the menu item dynamically
-        const menuLocator = this.page.locator('a').filter({ hasText: new RegExp('^' + menuName + '$', 'i') });
+        const menuLocator = this.menuSelector.filter({ hasText: new RegExp('^' + menuName + '$', 'i') });
         await menuLocator.click();
 
         // if (submenuName) {

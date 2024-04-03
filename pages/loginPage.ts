@@ -8,6 +8,7 @@ export class LoginPage {
     username: Locator;
     password: Locator;
     signInBtn: Locator;
+    currentURL: string;
 
     constructor(page: Page) {
         this.page = page;
@@ -17,7 +18,6 @@ export class LoginPage {
     }
 
     async gotoLoginPage(){
-        // await this.page.goto('https://app.qa.traxinsights.app/#/login')
         await this.page.goto(baseURL + inspectionTestData.urls.login)
     }
     async login(username: string, password: string){
@@ -28,9 +28,7 @@ export class LoginPage {
 
     async verifyRedirection(){
         await this.page.waitForURL(baseURL + inspectionTestData.urls.home);
-
-        const currentURL = this.page.url();
-        expect(currentURL).toBe(baseURL + inspectionTestData.urls.home);
+        this.currentURL = this.page.url(); 
     }
     
 }
