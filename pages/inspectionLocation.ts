@@ -1,9 +1,9 @@
-import { Locator, Page, expect} from "@playwright/test";
+import { Locator, Page } from "@playwright/test";
 import inspectionTestData from "../test-data/inspectionTestData.json"
 
 // let inspId : string;
 // let location: string;
-
+const baseURL = process.env.BASEURL || "";
 export class InspLocationPage {
     page: Page;
     locName: Locator;
@@ -76,7 +76,7 @@ export class InspLocationPage {
     }
 
     async verifyInspLocPage(){
-        await this.page.waitForURL(inspectionTestData.inspection_location);
+        await this.page.waitForURL(baseURL + inspectionTestData.inspection_location);
         this.currentURL = this.page.url();
         this.inspectionLocationsText = await this.inspLocTitle.innerText();
         this.venueText = (await this.venueOption.innerHTML());
@@ -86,8 +86,8 @@ export class InspLocationPage {
     async inspPage() {
         await this.locName.click();
         await this.inspNowBtn.click();
-        await this.page.waitForURL(inspectionTestData.inspection);
-        await this.page.waitForURL(inspectionTestData.inspection);
+        await this.page.waitForURL(baseURL + inspectionTestData.inspection);
+        // await this.page.waitForURL(baseURL + inspectionTestData.inspection);
         
         // Extracting Inspection Number
         this.inspIdText = await this.inspectionIdElement.innerText();
@@ -124,7 +124,7 @@ export class InspLocationPage {
         this.confirmPopupTitleText = await this.confirmPopupTitle.innerText();
         this.confirmPopupContentText = await this.confirmPopupContent.innerText();
         await this.completeInspNoBtn.click();
-        await this.page.waitForURL(inspectionTestData.inspection_location);
+        await this.page.waitForURL(baseURL + inspectionTestData.inspection_location);
     }
 
 }

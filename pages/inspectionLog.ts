@@ -1,6 +1,7 @@
 import { Locator, Page } from "@playwright/test";
 import inspectionTestData from "../test-data/inspectionTestData.json"
 
+const baseURL = process.env.BASEURL || "";
 export class InspLogPage {
     page: Page;
     currentURL: string;
@@ -21,7 +22,7 @@ export class InspLogPage {
     }
 
     async gotoInspLogPage() {
-        await this.page.waitForURL(inspectionTestData.inspection_log);
+        await this.page.waitForURL(baseURL + inspectionTestData.inspection_log);
         this.currentURL = this.page.url();
     }
 
@@ -32,7 +33,7 @@ export class InspLogPage {
 
     async verifyEditDetails() {
         await this.logRow.click();
-        // await this.page.waitForURL(inspectionTestData.inspection_log);
+        // await this.page.waitForURL(baseURL + inspectionTestData.inspection_log);
         // this.currentURL = this.page.url();
 
         this.inspIdText = await this.inspId.innerText();

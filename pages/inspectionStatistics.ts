@@ -1,6 +1,7 @@
 import { Locator, Page } from "@playwright/test";
 import inspectionTestData from "../test-data/inspectionTestData.json"
 
+const baseURL = process.env.BASEURL || "";
 export class InspStatisticsPage {
     page: Page;
     currentURL: string;
@@ -21,7 +22,7 @@ export class InspStatisticsPage {
     }
 
     async gotoInspStatisticsPage() {
-        await this.page.waitForURL(inspectionTestData.inspection_statistics);
+        await this.page.waitForURL(baseURL + inspectionTestData.inspection_statistics);
         this.currentURL = this.page.url();
     }
 

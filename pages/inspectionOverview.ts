@@ -1,6 +1,7 @@
 import { Locator, Page } from "@playwright/test";
 import inspectionTestData from "../test-data/inspectionTestData.json"
 
+const baseURL = process.env.BASEURL || "";
 export class InspOverviewPage {
     page: Page;
     currentURL: string;
@@ -23,7 +24,7 @@ export class InspOverviewPage {
     }
 
     async gotoInspOverviewPage() {
-        await this.page.waitForURL(inspectionTestData.inspection_overview);
+        await this.page.waitForURL(baseURL + inspectionTestData.inspection_overview);
         this.currentURL = this.page.url();
     }
 
