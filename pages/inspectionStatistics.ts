@@ -22,7 +22,7 @@ export class InspStatisticsPage {
     }
 
     async gotoInspStatisticsPage() {
-        await this.page.waitForURL(baseURL + inspectionTestData.inspection_statistics);
+        await this.page.waitForURL(baseURL + inspectionTestData.urls.inspection_statistics);
         this.currentURL = this.page.url();
     }
 

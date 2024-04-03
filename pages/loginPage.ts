@@ -18,7 +18,7 @@ export class LoginPage {
 
     async gotoLoginPage(){
         // await this.page.goto('https://app.qa.traxinsights.app/#/login')
-        await this.page.goto(baseURL + inspectionTestData.login)
+        await this.page.goto(baseURL + inspectionTestData.urls.login)
     }
     async login(username: string, password: string){
         await this.username.fill(username);
@@ -27,10 +27,10 @@ export class LoginPage {
     }
 
     async verifyRedirection(){
-        await this.page.waitForURL(baseURL + inspectionTestData.home);
+        await this.page.waitForURL(baseURL + inspectionTestData.urls.home);
 
         const currentURL = this.page.url();
-        expect(currentURL).toBe(baseURL + inspectionTestData.home);
+        expect(currentURL).toBe(baseURL + inspectionTestData.urls.home);
     }
     
 }

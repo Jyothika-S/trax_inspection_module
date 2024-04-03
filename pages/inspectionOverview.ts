@@ -24,7 +24,7 @@ export class InspOverviewPage {
     }
 
     async gotoInspOverviewPage() {
-        await this.page.waitForURL(baseURL + inspectionTestData.inspection_overview);
+        await this.page.waitForURL(baseURL + inspectionTestData.urls.inspection_overview);
         this.currentURL = this.page.url();
     }
 

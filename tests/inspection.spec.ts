@@ -33,7 +33,7 @@ test('Inspection Workflow: Login, Create, Verify Details', async ({page}) => {
         await homePage.toggleSidePanel();
         await homePage.gotoMenuPage('Inspections', 'Inspection Locations');
         await inspLocation.verifyInspLocPage();
-        expect(inspLocation.currentURL).toBe(baseURL + inspectionTestData.inspection_location)
+        expect(inspLocation.currentURL).toBe(baseURL + inspectionTestData.urls.inspection_location)
         expect(inspLocation.inspectionLocationsText).toContain('INSPECTION LOCATIONS')
         expect(inspLocation.inspectionLocationsText).not.toBeNull();
         expect(inspLocation.venue).toContainText('● Venue');
@@ -54,7 +54,7 @@ test('Inspection Workflow: Login, Create, Verify Details', async ({page}) => {
         expect.soft(inspLocation.confirmPopupContentText).toContain('Would you like to create a follow-up alert?')
         expect.soft(inspLocation.completeInspYesBtn.isVisible()).toBeTruthy();
         expect.soft(inspLocation.completeInspNoBtn.isVisible()).toBeTruthy();
-        expect(inspLocation.currentURL).toBe(baseURL + inspectionTestData.inspection_location)
+        expect(inspLocation.currentURL).toBe(baseURL + inspectionTestData.urls.inspection_location)
 
         inspId = inspLocation.inspectionId;
         location = inspLocation.location;

@@ -1,9 +1,11 @@
 {
-    "login": "login",
-    "home" : "dashboard",
-    "inspection_location" : "location-overview",
-    "inspection" : "inspection",
-    "inspection_log" : "inspection-log",
-    "inspection_overview" : "overview-dashboard",
-    "inspection_statistics" : "statistics"
+    "urls": {
+        "login": "login",
+        "home" : "dashboard",
+        "inspection_location" : "location-overview",
+        "inspection" : "inspection",
+        "inspection_log" : "inspection-log",
+        "inspection_overview" : "overview-dashboard",
+        "inspection_statistics" : "statistics"
+    }
 }

@@ -22,7 +22,7 @@ export class InspLogPage {
     }
 
     async gotoInspLogPage() {
-        await this.page.waitForURL(baseURL + inspectionTestData.inspection_log);
+        await this.page.waitForURL(baseURL + inspectionTestData.urls.inspection_log);
         this.currentURL = this.page.url();
     }
 
@@ -33,7 +33,7 @@ export class InspLogPage {
 
     async verifyEditDetails() {
         await this.logRow.click();
-        // await this.page.waitForURL(baseURL + inspectionTestData.inspection_log);
+        // await this.page.waitForURL(baseURL + inspectionTestData.urls.inspection_log);
         // this.currentURL = this.page.url();
 
         this.inspIdText = await this.inspId.innerText();
