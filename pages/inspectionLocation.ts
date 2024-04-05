@@ -14,6 +14,7 @@ export class InspLocationPage {
     venue: Locator;
     venueOption: Locator;
     venueText: string;
+    venueName: string;
     inspIdText: string;
     locationText: string;
     tableHeader: Locator;
@@ -50,7 +51,8 @@ export class InspLocationPage {
         this.locName = page.locator('#maincontent > div > div > locationoverview > section.content > div:nth-child(2) > div > div > div > table > tbody > tr > td')
         this.venue = page.locator('locationoverview')
         // this.venueOption = page.locator('ng-select[role="listbox"] .ng-value-label')
-        this.venueOption = page.locator('ng-select[role="listbox"] .ng-value-label').nth(1);
+        // this.venueOption = page.locator('ng-select[role="listbox"] .ng-value-label').nth(1);
+        this.venueOption = page.locator('#maincontent > div > app-navigation > header > nav > div.header-bind.col-xs-12 > span:nth-child(2)')
         this.inspNowBtn = page.locator('div').filter({ hasText: /^Inspect Now$/ }).locator('i')
         this.inspectionIdElement = page.locator('#maincontent > div > div > inspection > div > section.content-header.element-header > div > div.col-lg-7.col-sm-12.col-md-6 > span:nth-child(1)')
         this.locationElement = page.locator('#maincontent > div > div > inspection > div > section.content-header.element-header > div > div.col-lg-7.col-sm-12.col-md-6 > span:nth-child(2)')
@@ -79,8 +81,10 @@ export class InspLocationPage {
         await this.page.waitForURL(baseURL + inspectionTestData.urls.inspection_location);
         this.currentURL = this.page.url();
         this.inspectionLocationsText = await this.inspLocTitle.innerText();
-        this.venueText = (await this.venueOption.innerHTML());
+        this.venueText = (await this.venueOption.innerText());
+        this.venueName = this.venueText.split('\n')[1];
         console.log('venueText: ',this.venueText)
+        console.log('venueName: ',this.venueName)
     }
 
     async inspPage() {

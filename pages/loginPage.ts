@@ -1,27 +1,35 @@
-import { ElementHandle, Locator, Page, expect } from '@playwright/test';
+import { Locator, Page } from '@playwright/test';
 import inspectionTestData from "../test-data/inspectionTestData.json"
 
 
 const baseURL = process.env.BASEURL || "";
 export class LoginPage {
     page: Page;
+    emailClick: Locator;
     username: Locator;
+    pswdClick: Locator;
     password: Locator;
     signInBtn: Locator;
     currentURL: string;
 
     constructor(page: Page) {
         this.page = page;
-        this.username = page.getByPlaceholder('Email ID');
+        // this.username = page.getByPlaceholder('Email ID');
+        this.emailClick = page.getByLabel('Email *')
+        this.username = page.getByPlaceholder('Email ID')
+        this.pswdClick = page.getByLabel('Password *')
         this.password = page.getByPlaceholder('Password');
         this.signInBtn = page.getByRole('button', { name: 'Sign In' })
     }
 
     async gotoLoginPage(){
         await this.page.goto(baseURL + inspectionTestData.urls.login)
-    }
+        console.log("login url: ", baseURL + inspectionTestData.urls.login)
+    };
     async login(username: string, password: string){
+        await this.emailClick.click();
         await this.username.fill(username);
+        await this.pswdClick.click();
         await this.password.fill(password);
         await this.signInBtn.click();
     }

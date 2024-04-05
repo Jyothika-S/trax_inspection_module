@@ -9,7 +9,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 // console.log(process.env)
-console.log(process.env.URL)
+// console.log(process.env.URL)
 
 
 /**

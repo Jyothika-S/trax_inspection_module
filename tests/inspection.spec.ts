@@ -38,7 +38,7 @@ test('Inspection Workflow: Login, Create, Verify Details', async ({page}) => {
         expect.soft(inspLocation.inspectionLocationsText).toContain(inspectionTestData.expectedData.inspection_location_title)
         expect.soft(inspLocation.inspectionLocationsText).not.toBeNull();
         expect.soft(inspLocation.venue).toContainText(inspectionTestData.expectedData.inspection_location_venueLabel);
-        venue = inspLocation.venueText;
+        venue = inspLocation.venueName;
         console.log("venue from spec: ",venue);
     
     })
