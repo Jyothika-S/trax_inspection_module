@@ -68,7 +68,7 @@ test('Inspection Workflow: Login, Create, Verify Details', async ({page}) => {
 
         // const inspLocation = new InspLocationPage(page);
         // await homePage.toggleSidePanel();
-        await homePage.gotoMenuPage('', '');
+        // await homePage.gotoMenuPage('', '');
         await homePage.gotoMenuPage('Inspections', 'Inspection Logs');
 
         console.log("id from global: ", inspId)
@@ -104,13 +104,13 @@ test('Inspection Workflow: Login, Create, Verify Details', async ({page}) => {
         await inspStatisticsPage.gotoInspStatisticsPage();
         await inspStatisticsPage.statisticsTabSelection('Inspection')
         
-        //table title
         await inspStatisticsPage.verifyCompltedTable();
         expect.soft(inspStatisticsPage.completedInspTableTitleText).toBe(inspectionTestData.expectedData.statistics_completedInspTable_title)
 
         //date selection
         await inspStatisticsPage.selectCurrentDate(2);
         await inspStatisticsPage.applyDate();
+        
         //elements graph
         await inspStatisticsPage.verifyElementsGraph();
         expect.soft(inspStatisticsPage.graphElements).toEqual(elements)

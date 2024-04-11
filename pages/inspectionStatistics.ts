@@ -16,7 +16,10 @@ export class InspStatisticsPage {
     graphElements: string[] = [];
     elementText: string;
     applyBtn: Locator;
- 
+    elementSelector: Locator;
+    tblInspId: Locator;
+    tblInspIdText: string;
+    elementColumn: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -24,6 +27,8 @@ export class InspStatisticsPage {
         this.startDateBtn = page.locator('//*[@id="maincontent"]/div/div/statisticsdashboard-component/section[2]/div/div/div[1]/div[2]/div[1]/mat-form-field/div/div[1]/div[2]/mat-datepicker-toggle/button');
         this.completedInspTableTitle = page.getByRole('heading', { name: 'Completed Inspections' }).nth(1);
         this.applyBtn = page.getByRole('button', { name: 'Apply' })
+        this.elementSelector = page.locator('#elementsInspected > div > div > svg:nth-child(1) > g.cartesianlayer > g > g.xaxislayer-above > ')
+        this.tblInspId = page.locator('#firstScrollTop > table > tbody:nth-child(2) > tr > td:nth-child(1)')
     }
 
     async gotoInspStatisticsPage() {
@@ -39,17 +44,19 @@ export class InspStatisticsPage {
     async verifyCompltedTable() {
         this.completedInspTableTitleText = await this.completedInspTableTitle.innerHTML();
         console.log('completedInspTableTitleText: ',this.completedInspTableTitleText)
+        // this.tblInspIdText = await this.tblInspId.innerHTML();
+        // console.log('tblInspIdText: ',this.tblInspId)
     }
 
     async verifyElementsGraph() {
 
         for (let i = 1; i <= 5; i++) {
-            const xpath = `#elementsInspected > div > div > svg:nth-child(1) > g.cartesianlayer > g > g.xaxislayer-above > g:nth-child(${i}) > text`;
-            const elementColumn = this.page.locator(xpath);
-            //extracts text within an SVG 
-            const extractText = await elementColumn.evaluateHandle((element) => element.textContent);
+            // const elementSelector = `#elementsInspected > div > div > svg:nth-child(1) > g.cartesianlayer > g > g.xaxislayer-above > g:nth-child(${i}) > text`;
+            this.elementColumn = await this.page.locator(`${this.elementSelector}g:nth-child(${i}) > text`);
+            //extracts text from an SVG 
+            const extractText = await this.elementColumn.evaluateHandle((element) => element.textContent);
             this.elementText = await extractText.jsonValue() as string;
-            this.graphElements.push(this.elementText.trim());
+            this.graphElements.push(this.elementText);
         }
     
         console.log("Elements in element graph: ", this.graphElements);

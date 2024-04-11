@@ -47,6 +47,7 @@ export class InspLocationPage {
     columnTexts: string[] = [];
     elementColumn: Locator;
     columnText: string;
+    colSelector: Locator;
 
 
     constructor(page: Page) {
@@ -78,6 +79,7 @@ export class InspLocationPage {
         this.completeInspBtn = page.getByRole('button', { name: 'Complete Inspection' })
         this.completeInspYesBtn = page.getByRole('button', { name: 'Yes' })
         this.completeInspNoBtn = page.getByRole('button', { name: 'No' })
+        this.colSelector = this.page.locator(`#maincontent > div > div > inspection > div > section.content.col-lg-12.col-md-12.col-sm-12 > div.row > div > div > div > table >`)
     }
 
     async verifyInspLocPage(){
@@ -110,11 +112,11 @@ export class InspLocationPage {
 
         this.tableHeaderText = await this.tableHeader.innerText();
         //table elements column
-        for (let i = 1; i <= 5; i++) {
-            const xpath = `//*[@id="maincontent"]/div/div/inspection/div/section[2]/div[1]/div/div/div/table/tbody[${i}]/tr/td[2]`;
-            const elementColumn = this.page.locator(xpath);
+        for (let i = 2; i <= 6; i++) {
+            // const colSelector = `#maincontent > div > div > inspection > div > section.content.col-lg-12.col-md-12.col-sm-12 > div.row > div > div > div > table > tbody:nth-child(${i}) > tr > td.verticalalign`;           
+            const elementColumn = this.page.locator(`${this.colSelector}tbody:nth-child(${i}) > tr > td.verticalalign`);
             this.columnText = await elementColumn.innerText();
-            this.columnTexts.push(this.columnText.trim());
+            this.columnTexts.push(this.columnText);
         }
 
         console.log("Column Texts:", this.columnTexts);
