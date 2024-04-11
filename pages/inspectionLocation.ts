@@ -44,6 +44,9 @@ export class InspLocationPage {
     completeInspNoBtn: Locator;
     inspectionLocationsText: string;
     currentURL: string;
+    columnTexts: string[] = [];
+    elementColumn: Locator;
+    columnText: string;
 
 
     constructor(page: Page) {
@@ -106,7 +109,16 @@ export class InspLocationPage {
         console.log("loc: ", this.location)
 
         this.tableHeaderText = await this.tableHeader.innerText();
-        
+        //table elements column
+        for (let i = 1; i <= 5; i++) {
+            const xpath = `//*[@id="maincontent"]/div/div/inspection/div/section[2]/div[1]/div/div/div/table/tbody[${i}]/tr/td[2]`;
+            const elementColumn = this.page.locator(xpath);
+            this.columnText = await elementColumn.innerText();
+            this.columnTexts.push(this.columnText.trim());
+        }
+
+        console.log("Column Texts:", this.columnTexts);
+
         //actions
         await this.ratingAirPurifier.click();
         await this.ratingMirror.click();

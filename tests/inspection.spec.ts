@@ -11,6 +11,7 @@ import { InspStatisticsPage } from '../pages/inspectionStatistics';
 let inspId : string;
 let location: string;
 let venue: string;
+let elements: string[] = [];
 const baseURL = process.env.BASEURL || "";
 
 test('Inspection Workflow: Login, Create, Verify Details', async ({page}) => {
@@ -40,7 +41,6 @@ test('Inspection Workflow: Login, Create, Verify Details', async ({page}) => {
         expect.soft(inspLocation.venue).toContainText(inspectionTestData.expectedData.inspection_location_venueLabel);
         venue = inspLocation.venueName;
         console.log("venue from spec: ",venue);
-    
     })
 
     //creates new inspection
@@ -59,6 +59,8 @@ test('Inspection Workflow: Login, Create, Verify Details', async ({page}) => {
 
         inspId = inspLocation.inspectionId;
         location = inspLocation.location;
+        elements = inspLocation.columnTexts;
+        console.log('elements from global: ',elements)
     })
 
     //Check if the completed inspection is found in Inspection Log
@@ -101,7 +103,19 @@ test('Inspection Workflow: Login, Create, Verify Details', async ({page}) => {
         await homePage.gotoMenuPage('Statistics', ' ');
         await inspStatisticsPage.gotoInspStatisticsPage();
         await inspStatisticsPage.statisticsTabSelection('Inspection')
-        // await inspStatisticsPage.selectCurrentDate();
+        
+        //table title
+        await inspStatisticsPage.verifyCompltedTable();
+        expect.soft(inspStatisticsPage.completedInspTableTitleText).toBe(inspectionTestData.expectedData.statistics_completedInspTable_title)
+
+        //date selection
+        await inspStatisticsPage.selectCurrentDate(2);
+        await inspStatisticsPage.applyDate();
+        //elements graph
+        await inspStatisticsPage.verifyElementsGraph();
+        expect.soft(inspStatisticsPage.graphElements).toEqual(elements)
+        
+
     })
 })
 

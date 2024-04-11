@@ -16,7 +16,8 @@
         "inspection_tableHeaderText": "Element Image\tElement Name\tRating\tComment With Attachment",
         "inspection_confirmPopup_title" : "Follow-up needed?",
         "inspection_confirmPopup_content" : "Would you like to create a follow-up alert?",
-        "inspection_logStatus_complete" : "Complete"
+        "inspection_logStatus_complete" : "Complete",
+        "statistics_completedInspTable_title" : "Completed Inspections"
     },
     "fillValues" : {
         "inspection_comment" : "testcomment",
