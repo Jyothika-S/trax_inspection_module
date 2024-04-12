@@ -14,7 +14,6 @@ export class LoginPage {
 
     constructor(page: Page) {
         this.page = page;
-        // this.username = page.getByPlaceholder('Email ID');
         this.emailClick = page.getByLabel('Email *')
         this.username = page.getByPlaceholder('Email ID')
         this.pswdClick = page.getByLabel('Password *')

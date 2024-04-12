@@ -54,8 +54,6 @@ export class InspLocationPage {
         this.page = page;
         this.locName = page.locator('#maincontent > div > div > locationoverview > section.content > div:nth-child(2) > div > div > div > table > tbody > tr > td')
         this.venue = page.locator('locationoverview')
-        // this.venueOption = page.locator('ng-select[role="listbox"] .ng-value-label')
-        // this.venueOption = page.locator('ng-select[role="listbox"] .ng-value-label').nth(1);
         this.venueOption = page.locator('#maincontent > div > app-navigation > header > nav > div.header-bind.col-xs-12 > span:nth-child(2)')
         this.inspNowBtn = page.locator('div').filter({ hasText: /^Inspect Now$/ }).locator('i')
         this.inspectionIdElement = page.locator('#maincontent > div > div > inspection > div > section.content-header.element-header > div > div.col-lg-7.col-sm-12.col-md-6 > span:nth-child(1)')
@@ -96,7 +94,6 @@ export class InspLocationPage {
         await this.locName.click();
         await this.inspNowBtn.click();
         await this.page.waitForURL(baseURL + inspectionTestData.urls.inspection);
-        // await this.page.waitForURL(baseURL + inspectionTestData.urls.inspection);
         
         // Extracting Inspection Number
         this.inspIdText = await this.inspectionIdElement.innerText();
@@ -112,8 +109,7 @@ export class InspLocationPage {
 
         this.tableHeaderText = await this.tableHeader.innerText();
         //table elements column
-        for (let i = 2; i <= 6; i++) {
-            // const colSelector = `#maincontent > div > div > inspection > div > section.content.col-lg-12.col-md-12.col-sm-12 > div.row > div > div > div > table > tbody:nth-child(${i}) > tr > td.verticalalign`;           
+        for (let i = 2; i <= 6; i++) {          
             const elementColumn = this.page.locator(`${this.colSelector}tbody:nth-child(${i}) > tr > td.verticalalign`);
             this.columnText = await elementColumn.innerText();
             this.columnTexts.push(this.columnText);

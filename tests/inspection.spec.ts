@@ -65,10 +65,6 @@ test('Inspection Workflow: Login, Create, Verify Details', async ({page}) => {
 
     //Check if the completed inspection is found in Inspection Log
     await test.step('Check if the completed inspection is found in Inspection Log', async () => {
-
-        // const inspLocation = new InspLocationPage(page);
-        // await homePage.toggleSidePanel();
-        // await homePage.gotoMenuPage('', '');
         await homePage.gotoMenuPage('Inspections', 'Inspection Logs');
 
         console.log("id from global: ", inspId)
