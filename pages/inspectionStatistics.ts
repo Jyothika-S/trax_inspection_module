@@ -24,9 +24,9 @@ export class InspStatisticsPage {
     constructor(page: Page) {
         this.page = page;
         this.startDateInput = page.locator('#startDate')
-        this.startDateBtn = page.locator('//*[@id="maincontent"]/div/div/statisticsdashboard-component/section[2]/div/div/div[1]/div[2]/div[1]/mat-form-field/div/div[1]/div[2]/mat-datepicker-toggle/button');
+        this.startDateBtn = page.locator('button[aria-label="Open calendar"][tabindex="0"]').nth(2);
         this.completedInspTableTitle = page.getByRole('heading', { name: 'Completed Inspections' }).nth(1);
-        this.applyBtn = page.getByRole('button', { name: 'Apply' })
+        this.applyBtn = page.getByRole('button', { name: 'Apply' }).nth(1)
         this.elementSelector = page.locator('#elementsInspected > div > div > svg:nth-child(1) > g.cartesianlayer > g > g.xaxislayer-above > ')
         this.tblInspId = page.locator('#firstScrollTop > table > tbody:nth-child(2) > tr > td:nth-child(1)')
     }

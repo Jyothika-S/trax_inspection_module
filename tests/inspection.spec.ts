@@ -33,7 +33,8 @@ test('Inspection Workflow: Login, Create, Verify Details', async ({page}) => {
     //Inspection location page verification
     await test.step('Verify inspection location page', async () => {
         await homePage.toggleSidePanel();
-        await homePage.gotoMenuPage('Inspections', 'Inspection Locations');
+        await homePage.goToMenu('Inspections')
+        await homePage.goToSubMenu('Inspection Locations')
         await inspLocation.verifyInspLocPage();
         expect(inspLocation.currentURL).toBe(baseURL + inspectionTestData.urls.inspection_location)
         expect.soft(inspLocation.inspectionLocationsText).toContain(inspectionTestData.expectedData.inspection_location_title)
@@ -65,7 +66,7 @@ test('Inspection Workflow: Login, Create, Verify Details', async ({page}) => {
 
     //Check if the completed inspection is found in Inspection Log
     await test.step('Check if the completed inspection is found in Inspection Log', async () => {
-        await homePage.gotoMenuPage('Inspections', 'Inspection Logs');
+        await homePage.goToSubMenu('Inspection Logs')
 
         console.log("id from global: ", inspId)
         console.log("loc from global", location)
@@ -86,7 +87,7 @@ test('Inspection Workflow: Login, Create, Verify Details', async ({page}) => {
 
     //check if currently completed inspection is found in Inspection Overview
     await test.step('Verifying if the details are present on the inspection\'s overview page', async() => {
-        await homePage.gotoMenuPage('Inspection Overview', ' ');
+        await homePage.goToMenu('Inspection Overview')
         await inspOverviewPage.gotoInspOverviewPage();
         console.log("venue printed from overview: ", venue)
         await inspOverviewPage.selectVenue(venue)
@@ -96,7 +97,7 @@ test('Inspection Workflow: Login, Create, Verify Details', async ({page}) => {
 
     //verify inspection tab in statistics
     await test.step('Verifying the details in the statistics page', async() => {
-        await homePage.gotoMenuPage('Statistics', ' ');
+        await homePage.goToMenu('Statistics')
         await inspStatisticsPage.gotoInspStatisticsPage();
         await inspStatisticsPage.statisticsTabSelection('Inspection')
         
